@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>AJAX HomeWork</title>
+</head>
+
+<body>
+
+    <!-- create buttons in your HTML. -->
+    <div id="buttons"> </div>
+
+    <!-- where to put the giphys -->
+    <div id="images"> </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    // 1. create an array of strings
+    // Save it to a variable called `topics`
+    var topics = [ "baby", "dancing", "wholesome" ];
+
+    // 2. take the topics in this array and create buttons in your HTML
+    // using a loop that appends a button for each string in the array  
+    function bttns () {
+        for (var i = 0; i < topics.length; i++) {
+            // Then dynamicaly generating buttons for each movie in the array
+            var a = $("<button>");
+            // Adding a class of giphy-btn to our button
+            a.addClass("giphy-btn");
+            // Adding a data-attribute
+            a.attr("data-name", topics[i]);
+            // Providing the initial button text
+            a.text(topics[i]);
+            // Adding the button to the buttons div
+            $("#buttons").append(a);           
+        }; 
+    };
+
+    // $("#buttons").text(bttns);
+
+    // Event listener for our giphy-button
+    $(document).on("click", ".giphy-btn",function() {
+
+        // my api key for Gighy Developers
+        var apiKey = "api_key=WAUhQyoIckmLYIQnFQtLRy8p2Nkf1MKW";
+
+        // topic button clicked on 
+        var topicChosen = $(this).attr('data-name');
+
+        // 3. When the user clicks on a button, the page should grab static, non-animated gif images from the GIPHY API and place them on the page.
+        // Storing our giphy API URL for a random giphy image
+        var queryURL = "https://api.giphy.com/v1/gifs/random?" + apiKey + "&tag=" + topicChosen + "&limit=10";
+
+        // checking that the topic clicked on is the topic being pulled 
+        console.log(topicChosen)
+
+        // Perfoming an AJAX GET request to our queryURL
+        $.ajax({
+        url: queryURL,
+        method: "GET"
+        })
+
+        // After the data from the AJAX request comes back
+        .then(function(response) {
+
+            // Saving the image_original_url property
+            var imageUrl = response.data.image_original_url;
+            console.log(imageUrl);
+
+            // Creating and storing an image tag
+            var giphyImage = $("<img>");
+
+            // Setting the giphyImage src attribute to imageUrl
+            // 10 static, non-animated gif images
+            giphyImage.attr("src", imageUrl);
+            giphyImage.attr("alt", "giphy image");
+            giphyImage.attr("data-still", imageUrl);
+            giphyImage.attr("data-state", "still");
+            giphyImage.attr("class", "gif");
+
+            // Prepending the giphyImage to the images div
+            $("#images").prepend(giphyImage);
+            console.log(giphyImage);
+
+            // the page should grab 10 gif images
+            // NOT WORKING :(
+            console.log(giphyImage.length);
+            $(giphyImage.length).val(10);
+
+            // 5. Under every gif, display its rating (PG, G, so on).
+            // Creating a div to hold the rating
+            var giphyRating = $("<div class='giphy-rating'>");
+            $("#images").append(giphyRating);
+            // THE RATINGS ARE APPENDING TO THE BOTTOM OF ALL THE PICTURES BUT I TRIED APPENDING IT TO THE SPECIFIC GIPHY BY giphyImage, SRC, DATA-NAME NOTHING IS WORKING.  
+
+            // Storing the rating data
+            var ratinggg = response.data.rating;
+            console.log(response.data.rating);
+
+            // Creating an element to have the rating displayed
+            var pOne = $("<p>").text("Rating: " + ratinggg);
+
+            // Displaying the rating
+            giphyRating.append(pOne);
+            console.log(giphyRating)
+
+            // Putting the entire new giphy and  new rating  above the previous giphy
+            $("#giphy-rating").prepend(giphyRating);
+            
+            console.log(response);
+
+        });
+
+    });
+
+
+    // 4. When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
+    $(".gif").on("click", function() {
+        
+        // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+        var state = $(this).attr("data-state");
+
+        // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+        if (state === "still") {
+            // Then, set the image's data-state to animate
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        }
+
+            // Else set src to the data-still value
+            else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+
+    });
+
+    bttns();
+
+</script>
+</body>
+
+</html>

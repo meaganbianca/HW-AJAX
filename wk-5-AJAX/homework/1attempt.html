@@ -1,0 +1,88 @@
+<!-- this is the 1st attempt of code i tried to think of on my own -->
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HW Giphy</title>
+
+</head>
+
+<body>
+    
+    <!-- create buttons in your HTML. -->
+    <div id="buttons"> </div>
+    
+    <!-- where to put the giphys -->
+    <div id="giphys"> </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    // my api key for Gighy Developers
+    var apiKey = "WAUhQyoIckmLYIQnFQtLRy8p2Nkf1MKW";
+
+    // Example queryURL for Giphy API
+    var queryURL = ("https://api.giphy.com/v1/gifs/trending?api_key=" + apiKey);
+    console.log (queryURL);
+
+    // 1. create an array of strings
+    // Save it to a variable called `topics`
+    var topics = [ "baby", "dancing", "wholesome" ];
+    console.log (topics);
+
+    $.ajax({
+    url: queryURL,
+    method: "GET"
+    })
+    
+    .then(function(response) {
+
+        // 2. take the topics in this array and create buttons in your HTML
+        // using a loop that appends a button for each string in the array  
+        var bttns = function () {
+            for (var i = 0; i < topics.length; i++) {
+                $(topics[i]).append("<button>" + topics[i] + "</button>")
+            };              
+        };
+        
+        $(".buttons").append(bttns);
+
+        // 3. When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API and place them on the page.
+        (???).on("click", function() {
+            $(".giphys").append("<link href=" + "???" + ">")
+        });
+
+// I THINK i need to make a click for each topics[i] ... 
+
+    });
+
+    </script>
+
+</body>
+
+</html>
+
+// <!-- 1.  create an array of strings
+//     Save it to a variable called `topics`.
+
+// 2. Your app should take the topics in this array and create buttons in your HTML.
+//    * Try using a loop that appends a button for each string in the array.
+
+// 3. When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API and place them on the page.
+
+// 4. When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
+
+// 5. Under every gif, display its rating (PG, G, so on).
+//    * This data is provided by the GIPHY API.
+//    * Only once you get images displaying with button presses should you move on to the next step.
+
+// 6. Add a form to your page that takes a value from a user input box and adds it to your `topics` array. Then make a function call that takes each topic in the array and remakes the buttons on the page.
+
+// 7. Deploy your assignment to Github Pages.
+
+// 8. **Rejoice**! You just made something really cool. -->
